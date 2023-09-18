@@ -7,7 +7,12 @@
           <input matInput placeholder="Nome" formControlName="name">
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput placeholder="Categoria" formControlName="category">
+          <mat-label>Categoria</mat-label>
+          <select matNativeControl formControlName="category">
+            <option value="null"></option>
+            <option value="front-end">Front-End</option>
+            <option value="back-end">Back-End</option>
+          </select>
         </mat-form-field>
       </form>
     </mat-card-content>
