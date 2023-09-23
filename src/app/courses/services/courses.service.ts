@@ -26,11 +26,14 @@ export class CoursesService {
   }
 
   save(record: Partial<Course>){
-    return this.httpClient.post<Course[]>(this.API, record)
-    .pipe(
-      first(),
-      // delay(1000),
-      tap(courses => console.log(courses))
-    );
+    return record?._id ? this.update(record) : this.create(record);
+  }
+
+  private create(record: Partial<Course>){
+    return this.httpClient.post<Course[]>(this.API, record).pipe(first());
+  }
+
+  private update(record: Partial<Course>){
+    return this.httpClient.put<Course[]>(`${this.API}/${record?._id}`, record).pipe(first());
   }
 }
