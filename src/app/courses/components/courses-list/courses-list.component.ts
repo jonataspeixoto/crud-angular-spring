@@ -18,15 +18,15 @@ export class CoursesListComponent implements OnInit{
   constructor (){  }
 
   onAdd(){
-    this.add.emit(true)
+    this.add.emit(true);
   }
 
-  onEdit(){
-    this.edit.emit(true)
+  onEdit(course: Course){
+    this.edit.emit(course);
   }
 
   onDelete(){
-    this.delete.emit(true)
+    this.delete.emit(true);
   }
 
   ngOnInit(): void { }

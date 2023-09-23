@@ -7,7 +7,10 @@
 
       <app-courses-list
       *ngIf="courses$ | async as courses; else loading"
-      [courses]="courses" (add)="onAdd()" (edit)="onEdit()" (delete)="onDelete()"
+      [courses]="courses"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (delete)="onDelete()"
       ></app-courses-list>
 
       <ng-template #loading>
