@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../services/courses.service';
@@ -15,8 +15,8 @@ export class CourseFormComponent implements OnInit {
 
   form = this.formBuilder.group({
     _id:[''],
-    name: [''],
-    category: [''],
+    name: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+    category: ['',[Validators.required]],
   });
 
   constructor(
@@ -39,6 +39,16 @@ export class CourseFormComponent implements OnInit {
   onSuccess(){
     this._snackBar.open('Curso salvo com sucesso', '', { duration: 5 * 1000 });
     this.onCancel();
+  }
+
+  getErrorMessage(fieldName: string){
+    const field = this.form.get(fieldName);
+
+    if (field?.hasError('required')){
+      return 'Campo obrigatório';
+    }
+
+    return 'Campo Inválido';
   }
 
   ngOnInit(): void {
