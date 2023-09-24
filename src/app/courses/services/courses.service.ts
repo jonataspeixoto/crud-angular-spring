@@ -30,10 +30,14 @@ export class CoursesService {
   }
 
   private create(record: Partial<Course>){
-    return this.httpClient.post<Course[]>(this.API, record).pipe(first());
+    return this.httpClient.post<Course>(this.API, record).pipe(first());
   }
 
   private update(record: Partial<Course>){
-    return this.httpClient.put<Course[]>(`${this.API}/${record?._id}`, record).pipe(first());
+    return this.httpClient.put<Course>(`${this.API}/${record?._id}`, record).pipe(first());
+  }
+
+  remove(id: string){
+    return this.httpClient.delete(`${this.API}/${id}`).pipe(first());
   }
 }
