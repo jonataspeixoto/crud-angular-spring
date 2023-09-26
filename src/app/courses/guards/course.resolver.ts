@@ -7,5 +7,5 @@ export const courseResolver: ResolveFn<Course> = (route, state, service: Courses
   if (route?.params && route?.params?.['id']){
     return service.loadById(route.params['id']);
   }
-  return { _id: '', name: '', category: ''};
+  return { _id: '', name: '', category: '', lessons: []};
 };
