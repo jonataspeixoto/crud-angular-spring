@@ -9,19 +9,18 @@
           <input type="text" matInput placeholder="Nome" formControlName="name" #name>
           <mat-hint align="end">{{ name.value.length || 0 }} / 100</mat-hint>
           <mat-error *ngIf="form.get('name')?.invalid">
-            {{ getErrorMessage('name') }}
+            {{ formUtils.getErrorMessage(form, 'name') }}
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width">
           <mat-label>Categoria</mat-label>
           <select matNativeControl formControlName="category">
-            <option value="null"></option>
             <option value="Front-end">Front-end</option>
             <option value="Back-end">Back-end</option>
           </select>
           <mat-error *ngIf="form.get('category')?.invalid">
-            {{ getErrorMessage("category") }}
+            {{ formUtils.getErrorMessage(form, 'category') }}
           </mat-error>
         </mat-form-field>
 
@@ -32,7 +31,10 @@
           </button>
         </mat-toolbar>
 
-        <mat-error class=".form-array-error" *ngIf="isFormArrayRequired()">
+        <mat-error
+          class=".form-array-error"
+          *ngIf="formUtils.isFormArrayRequired(form, 'lessons')"
+        >
           Adicione pelo menos uma aula.
         </mat-error>
 
@@ -47,7 +49,7 @@
                 <mat-label>Nome da Aula</mat-label>
                 <input type="text" matInput formControlName="name">
                 <mat-error *ngIf="getLessonsFromArray()[i].get('name')?.invalid">
-                  Campo inválido
+                  {{ formUtils.getFormArrayFieldErrorMessage(form, 'lessons', 'name', i) }}
                 </mat-error>
               </mat-form-field>
             </td>
@@ -57,7 +59,7 @@
                 <span matPrefix>http://youtu.be/</span>
                 <input type="text" matInput formControlName="youtubeUrl">
                 <mat-error *ngIf="getLessonsFromArray()[i].get('youtubeUrl')?.invalid">
-                  Campo inválido
+                  {{ formUtils.getFormArrayFieldErrorMessage(form, 'lessons', 'youtubeUrl', i) }}
                 </mat-error>
               </mat-form-field>
             </td>

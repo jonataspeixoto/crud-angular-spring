@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../model/course';
 import { Lesson } from '../../model/lesson';
+import { FormUtilsService } from 'src/app/shared/form/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -21,7 +22,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService) {
   }
 
   private retrieveLessons(course: Course){
@@ -49,9 +51,10 @@ export class CourseFormComponent implements OnInit {
   }
   onSubmit() {
     if (this.form.valid){
-      this.service.save(this.form.value).subscribe(result => this.onSuccess(), error => this.onError());
+      this.service.save(this.form.value)
+        .subscribe(result => this.onSuccess(), error => this.onError());
     } else {
-      alert('Form inválido');
+      this.formUtils.validateAllFormFields(this.form);
     }
   }
   onError(){
@@ -60,16 +63,6 @@ export class CourseFormComponent implements OnInit {
   onSuccess(){
     this._snackBar.open('Curso salvo com sucesso', '', { duration: 5 * 1000 });
     this.onCancel();
-  }
-
-  getErrorMessage(fieldName: string){
-    const field = this.form.get(fieldName);
-
-    if (field?.hasError('required')){
-      return 'Campo obrigatório';
-    }
-
-    return 'Campo Inválido';
   }
 
   addNewLesson(){
@@ -94,10 +87,5 @@ export class CourseFormComponent implements OnInit {
       category: [course.category,[Validators.required]],
       lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
     });
-  }
-
-  isFormArrayRequired(){
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 }
